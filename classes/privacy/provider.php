@@ -14,16 +14,32 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+
 /**
- * Strings for component 'block_enrolkey', language 'en'
+ * Privacy provider.
  *
  * @package   block_enrolkey
- * @copyright Gleimer Mora <gleimermora@catalyst-au.net>
+ * @author    Gleimer Mora (gleimermora@catalyst-au.net)
+ * @copyright 2019 Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+namespace block_enrolkey\privacy;
 
-$string['block_enrolkey:addinstance'] = 'Add a new enrolkey block';
-$string['block_enrolkey:myaddinstance'] = 'Add a new enrolkey block to Dashboard';
-$string['pluginname'] = 'Enrol Key';
-$string['enrolbutton'] = 'Enrol';
-$string['privacy:metadata'] = 'The block enrolkey plugin does not store any personal data.';
+defined('MOODLE_INTERNAL') || die;
+
+use core_privacy\local\legacy_polyfill;
+use core_privacy\local\metadata\null_provider;
+
+class provider implements null_provider {
+    use legacy_polyfill;
+
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function _get_reason() {
+        return 'privacy:metadata';
+    }
+}

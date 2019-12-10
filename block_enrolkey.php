@@ -40,7 +40,7 @@ class block_enrolkey extends block_base {
      * @throws moodle_exception
      */
     public function get_content() {
-        global $USER;
+        global $USER, $DB;
         if ($this->content !== null) {
           return $this->content;
         }
@@ -51,14 +51,14 @@ class block_enrolkey extends block_base {
         }
         $enrolkeystring = $_POST['enrol_key'] ?? '';
         if (!empty($enrolkeystring)) {
-            $this->enrol_key($enrolkeystring);
+            $availableenrolids = $this->enrol_key($DB, $authplugin, $enrolkeystring);
+            $authplugin->enrolkey_notify(true, $availableenrolids, $USER->email);
         }
-
         $this->content->text = '<div>';
         $this->content->text .= '<form method="post" accept-charset="utf-8" id="block_enrolkey_form">';
-        $this->content->text .= '<input type="text" name="enrol_key" id="id_enrol_key">';
+        $this->content->text .= '<input type="text" name="enrol_key" id="id_enrol_key" autocomplete="off">';
         $this->content->text .= '<button  type="submit" class="btn btn-secondary" id="enrol_key_submit" title>';
-        $this->content->text .= 'Enrol</button>';
+        $this->content->text .= get_string('enrolbutton', 'block_enrolkey') . '</button>';
         $this->content->text .= '</form>';
         $this->content->text .= '</div>';
         $this->content->footer = '';
@@ -66,44 +66,23 @@ class block_enrolkey extends block_base {
         return $this->content;
     }
 
-    private function enrol_key(string $enrolkey) {
-        global $DB;
-        // Password is the Enrolment key that is specified in the Self enrolment instance.
-        $enrolplugins = $DB->get_records('enrol', ['enrol' => 'self', 'password' => $enrolkey]);
-
-        $availableenrolids = [];
-
+    /**
+     * @param moodle_database $db
+     * @param auth_plugin_enrolkey $authplugin
+     * @param string $enrolkey
+     * @return array
+     * @throws dml_exception
+     */
+    private function enrol_key(moodle_database $db, auth_plugin_enrolkey $authplugin, string $enrolkey): array {
         /** @var enrol_self_plugin $enrol */
         $enrol = enrol_get_plugin('self');
-        foreach ($enrolplugins as $enrolplugin) {
-            if ($enrol->can_self_enrol($enrolplugin) === true) {
 
-                $data = new stdClass();
-                $data->enrolpassword = $enrolplugin->password;
-                $enrol->enrol_self($enrolplugin, $data);
-                $availableenrolids[] = $enrolplugin->id;
-            }
-        }
+        // Password is the Enrolment key that is specified in the Self enrolment instance.
+        $enrolplugins = $authplugin->get_enrol_plugins($db, $enrolkey);
+        $availableenrolids = $authplugin->enrol_user($enrol, $enrolplugins);
 
         // Lookup group enrol keys. Not forgetting that group enrolment key is kept in {group}.enrolmentkey.
-        $enrolplugins = $DB->get_records_sql("
-                SELECT e.*, g.enrolmentkey
-                  FROM {groups} g
-                  JOIN {enrol} e ON e.courseid = g.courseid
-                                AND e.enrol = 'self'
-                                AND e.customint1 = 1
-                 WHERE g.enrolmentkey = ?
-        ", [$enrolkey]);
-        foreach ($enrolplugins as $enrolplugin) {
-            if ($enrol->can_self_enrol($enrolplugin) === true) {
-
-                $data = new stdClass();
-                // A $data should keep the group enrolment key according to implementation of,
-                // Method $enrol_self_plugin->enrol_self.
-                $data->enrolpassword = $enrolplugin->enrolmentkey;
-                $enrol->enrol_self($enrolplugin, $data);
-                $availableenrolids[] = $enrolplugin->id;
-            }
-        }
+        $enrolplugins = $authplugin->get_enrol_plugins($db, $enrolkey, true);
+        return array_merge($availableenrolids, $authplugin->enrol_user($enrol, $enrolplugins));
     }
 }
