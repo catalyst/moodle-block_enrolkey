@@ -26,4 +26,6 @@ $string['block_enrolkey:addinstance'] = 'Add a new enrolkey block';
 $string['block_enrolkey:myaddinstance'] = 'Add a new enrolkey block to Dashboard';
 $string['pluginname'] = 'Enrol key';
 $string['enrolbutton'] = 'Enrol';
+$string['emptykey'] = 'key must not be empty';
+$string['invalidkey'] = 'invalid key value';
 $string['privacy:metadata'] = 'The block enrolkey plugin does not store any personal data.';

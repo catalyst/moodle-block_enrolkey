@@ -21,12 +21,47 @@ require_once($CFG->libdir . '/formslib.php');
  * Class enrolkey_form
  */
 class enrolkey_form extends moodleform {
-    
-    //Add elements to form
+
+    /**
+     * @var auth_plugin_enrolkey
+     */
+    private $plugin;
+
+    /**
+     * @param auth_plugin_enrolkey $authplugin
+     * @return enrolkey_form
+     */
+    public function set_auth(auth_plugin_enrolkey $authplugin): self {
+        $this->plugin = $authplugin;
+        return $this;
+    }
+
+    /**
+     * Add elements to form
+     * @throws coding_exception
+     */
     public function definition() {
         $mform = $this->_form;
         $mform->addElement('text', 'enrolkey', '');
         $mform->setType('enrolkey', PARAM_TEXT);
+        $mform->addRule('enrolkey', get_string('emptykey', 'block_enrolkey'), 'required', null, 'client');
         $mform->addElement('submit', 'submitbutton', get_string('enrolbutton', 'block_enrolkey'));
+    }
+
+    /**
+     * @param array $data
+     * @param array $files
+     * @return array
+     * @throws coding_exception
+     * @throws dml_exception
+     * @throws moodle_exception
+     */
+    public function validation($data, $files) {
+        parent::validation($data, $files);
+        $availableenrolids = $this->plugin->enrol_user($data['enrolkey']);
+        if (empty($availableenrolids)) {
+            return ['enrolkey' => get_string('invalidkey', 'block_enrolkey')];
+        }
+        redirect(new moodle_url("/auth/enrolkey/view.php", array('ids' => implode(',', $availableenrolids))));
     }
 }

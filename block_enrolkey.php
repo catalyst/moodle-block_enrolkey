@@ -51,10 +51,8 @@ class block_enrolkey extends block_base {
         }
 
         require_once($CFG->dirroot . '/blocks/enrolkey/enrolkey_form.php');
-        $form = new enrolkey_form();
-        if ($formdata = $form->get_data()) {
-            $authplugin->enrol_user($formdata->enrolkey);
-        }
+        $form = (new enrolkey_form())->set_auth($authplugin);
+        $form->get_data();
         $this->content->text = $form->render();
 
         return $this->content;

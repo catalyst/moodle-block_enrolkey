@@ -17,7 +17,7 @@
 /**
  * Version details
  *
- * @package    block_calendar_month
+ * @package    block_enrolkey
  * @copyright  Gleimer Mora <gleimermora@catalyst-au.net>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
