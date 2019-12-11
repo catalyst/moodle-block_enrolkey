@@ -41,20 +41,38 @@ class block_enrolkey extends block_base {
      */
     public function get_content() {
         global $CFG;
-        if ($this->content !== null) {
+        if ($this->content !== null || ($authplugin = $this->is_auth_plugin_enable()) === false) {
           return $this->content;
         }
-     
-        $this->content =  new stdClass;
-        if (!$authplugin = signup_is_enabled()) {
-            print_error('notlocalisederrormessage', 'error', '', 'Sorry, you may not use this page.');
-        }
 
+        $this->content =  new stdClass;
         require_once($CFG->dirroot . '/blocks/enrolkey/enrolkey_form.php');
-        $form = (new enrolkey_form())->set_auth($authplugin);
-        $form->get_data();
+        $form = new enrolkey_form();
+        $data = (array)$form->get_submitted_data();
+        $enrolkey = $data['enrolkey'] ?? '';
+        if ($enrolkey !== '') {
+            $enrolids = $authplugin->enrol_user($data['enrolkey']);
+            if (empty($enrolids)) {
+                // display server validation message
+                $form->validate_defined_fields();
+            } else {
+                redirect(new moodle_url("/auth/enrolkey/view.php", ['ids' => implode(',', $enrolids)]));
+            }
+        }
         $this->content->text = $form->render();
 
         return $this->content;
+    }
+
+    /**
+     * @return bool|mixed
+     */
+    private function is_auth_plugin_enable() {
+        $authpluginclass = auth_plugin_enrolkey::class;
+        $authplugin = signup_is_enabled();
+        if (!$authplugin instanceof $authpluginclass) {
+            return false;
+        }
+        return $authplugin;
     }
 }

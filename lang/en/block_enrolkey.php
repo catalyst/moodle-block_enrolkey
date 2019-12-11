@@ -28,4 +28,5 @@ $string['pluginname'] = 'Enrol key';
 $string['enrolbutton'] = 'Enrol';
 $string['emptykey'] = 'key must not be empty';
 $string['invalidkey'] = 'invalid key value';
+$string['disabled'] = 'Sorry, you may not use this page.';
 $string['privacy:metadata'] = 'The block enrolkey plugin does not store any personal data.';
