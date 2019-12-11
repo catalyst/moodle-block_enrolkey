@@ -1,0 +1,16 @@
+@media (min-width: 768px) {
+    .block_enrolkey .mform>.form-group {
+        margin-left: 0;
+    }
+
+    .block_enrolkey .form-group>.col-md-3 {
+        padding: 0 !important;
+        flex: 0;
+        max-width: 100%;
+    }
+
+    .block_enrolkey .form-group>.col-md-9 {
+        flex: 0;
+        max-width: 100%;
+    }
+}

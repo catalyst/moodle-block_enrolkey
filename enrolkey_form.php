@@ -14,16 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Strings for component 'block_enrolkey', language 'en'
- *
- * @package   block_enrolkey
- * @copyright Gleimer Mora <gleimermora@catalyst-au.net>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
+//moodleform is defined in formslib.php
+require_once($CFG->libdir . '/formslib.php');
 
-$string['block_enrolkey:addinstance'] = 'Add a new enrolkey block';
-$string['block_enrolkey:myaddinstance'] = 'Add a new enrolkey block to Dashboard';
-$string['pluginname'] = 'Enrol key';
-$string['enrolbutton'] = 'Enrol';
-$string['privacy:metadata'] = 'The block enrolkey plugin does not store any personal data.';
+/**
+ * Class enrolkey_form
+ */
+class enrolkey_form extends moodleform {
+    
+    //Add elements to form
+    public function definition() {
+        $mform = $this->_form;
+        $mform->addElement('text', 'enrolkey', '');
+        $mform->setType('enrolkey', PARAM_TEXT);
+        $mform->addElement('submit', 'submitbutton', get_string('enrolbutton', 'block_enrolkey'));
+    }
+}
