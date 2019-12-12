@@ -1,0 +1,68 @@
+language: php
+
+notifications:
+  email:
+    recipients:
+      - nicholashoobin@catalyst-au.net
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+php:
+ - 7.2
+
+addons:
+  postgresql: "9.6"
+
+services:
+  - mysql
+
+env:
+  - DB=pgsql MOODLE_BRANCH=MOODLE_35_STABLE
+  - DB=pgsql MOODLE_BRANCH=MOODLE_36_STABLE
+  - DB=pgsql MOODLE_BRANCH=MOODLE_37_STABLE 
+  - DB=pgsql MOODLE_BRANCH=master
+  - DB=mysqli MOODLE_BRANCH=MOODLE_35_STABLE
+  - DB=mysqli MOODLE_BRANCH=MOODLE_36_STABLE
+  - DB=mysqli MOODLE_BRANCH=MOODLE_37_STABLE
+  - DB=mysqli MOODLE_BRANCH=master
+matrix:
+    - php: 7.1
+      env: DB=pgsql MOODLE_BRANCH=master
+    - php: 7.1
+      env: DB=mysqli MOODLE_BRANCH=master
+    - php: 7.3
+      env: DB=pgsql MOODLE_BRANCH=master
+    - php: 7.3
+      env: DB=mysqli MOODLE_BRANCH=master
+
+
+
+
+before_install:
+  - phpenv config-rm xdebug.ini
+  - cd ../..
+  - git clone --mirror 'https://github.com/moodlehq/moodle-behat-extension.git' '/home/travis/.composer/cache/vcs/git-github.com-moodlehq-moodle-behat-extension.git/' || true
+  - composer selfupdate
+  - composer create-project -n --no-dev moodlerooms/moodle-plugin-ci ci ^1
+  - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
+
+install:
+  - moodle-plugin-ci install
+
+script:
+  - php moodle/auth/enrolkey/tests/privacy/privacy.php
+  - moodle-plugin-ci phplint
+  - moodle-plugin-ci phpcpd
+#  - moodle-plugin-ci phpmd         # phpmd is a bit overzealous
+  - moodle-plugin-ci codechecker
+  - moodle-plugin-ci csslint
+  - moodle-plugin-ci shifter
+  - moodle-plugin-ci jshint
+  - moodle-plugin-ci validate
+  - moodle-plugin-ci phpunit
+  - moodle-plugin-ci behat
+
