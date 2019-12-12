@@ -3,7 +3,6 @@ language: php
 notifications:
   email:
     recipients:
-      - nicholashoobin@catalyst-au.net
 
 sudo: false
 
@@ -40,8 +39,6 @@ matrix:
       env: DB=mysqli MOODLE_BRANCH=master
 
 
-
-
 before_install:
   - phpenv config-rm xdebug.ini
   - cd ../..
@@ -57,7 +54,7 @@ script:
   - php moodle/auth/enrolkey/tests/privacy/privacy.php
   - moodle-plugin-ci phplint
   - moodle-plugin-ci phpcpd
-#  - moodle-plugin-ci phpmd         # phpmd is a bit overzealous
+  - moodle-plugin-ci phpmd         # phpmd is a bit overzealous
   - moodle-plugin-ci codechecker
   - moodle-plugin-ci csslint
   - moodle-plugin-ci shifter
