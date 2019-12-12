@@ -23,6 +23,16 @@ require_once($CFG->libdir . '/formslib.php');
 class enrolkey_form extends moodleform {
 
     /**
+     * @var auth_plugin_enrolkey
+     */
+    private $authplugin;
+
+    /**
+     * @var array
+     */
+    private $enrolids = [];
+
+    /**
      * Add elements to form
      * @throws coding_exception
      */
@@ -35,6 +45,22 @@ class enrolkey_form extends moodleform {
     }
 
     /**
+     * @return array
+     */
+    public function get_enrol_ids(): array {
+        return$this->enrolids;
+    }
+
+    /**
+     * @param auth_plugin_enrolkey $authplugin
+     * @return enrolkey_form
+     */
+    public function set_plugin(auth_plugin_enrolkey $authplugin): self {
+        $this->authplugin = $authplugin;
+        return $this;
+    }
+
+    /**
      * @param array $data
      * @param array $files
      * @return array
@@ -42,6 +68,14 @@ class enrolkey_form extends moodleform {
      * @throws moodle_exception
      */
     public function validation($data, $files): array {
-        return ['enrolkey' => get_string('invalidkey', 'block_enrolkey')];
+        if (!$this->authplugin) {
+            return ['enrolkey' => get_string('pluginerror', 'block_enrolkey')];
+        }
+        $enrolids = $this->authplugin->enrol_user($data['enrolkey']);
+        if (empty($enrolids)) {
+            return ['enrolkey' => get_string('invalidkey', 'block_enrolkey')];
+        }
+        $this->enrolids = $enrolids;
+        return [];
     }
 }

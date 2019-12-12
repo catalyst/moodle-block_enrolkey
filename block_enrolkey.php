@@ -47,17 +47,10 @@ class block_enrolkey extends block_base {
 
         $this->content =  new stdClass;
         require_once($CFG->dirroot . '/blocks/enrolkey/enrolkey_form.php');
-        $form = new enrolkey_form();
-        $data = (array)$form->get_submitted_data();
-        $enrolkey = $data['enrolkey'] ?? '';
-        if ($enrolkey !== '') {
-            $enrolids = $authplugin->enrol_user($data['enrolkey']);
-            if (empty($enrolids)) {
-                // display server validation message
-                $form->validate_defined_fields();
-            } else {
-                redirect(new moodle_url("/auth/enrolkey/view.php", ['ids' => implode(',', $enrolids)]));
-            }
+        $form = (new enrolkey_form());//->set_plugin($authplugin);
+        if ($form->get_data()) {
+            $enrolids = $form->get_enrol_ids();
+            redirect(new moodle_url("/auth/enrolkey/view.php", ['ids' => implode(',', $enrolids)]));
         }
         $this->content->text = $form->render();
 
