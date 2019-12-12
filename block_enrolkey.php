@@ -43,7 +43,7 @@ class block_enrolkey extends block_base {
      */
     public function get_content() {
         if ($this->content !== null || ($authplugin = $this->is_auth_plugin_enable()) === false) {
-          return $this->content;
+            return $this->content;
         }
 
         $this->content =  new stdClass;
