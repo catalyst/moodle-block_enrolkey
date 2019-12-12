@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die;
+
 require_once($CFG->libdir . '/authlib.php');
 
 /**
@@ -40,14 +42,12 @@ class block_enrolkey extends block_base {
      * @throws moodle_exception
      */
     public function get_content() {
-        global $CFG;
         if ($this->content !== null || ($authplugin = $this->is_auth_plugin_enable()) === false) {
           return $this->content;
         }
 
         $this->content =  new stdClass;
-        require_once($CFG->dirroot . '/blocks/enrolkey/enrolkey_form.php');
-        $form = (new enrolkey_form());//->set_plugin($authplugin);
+        $form = (new \block_enrolkey\form\enrolkey_form())->set_plugin($authplugin);
         if ($form->get_data()) {
             $enrolids = $form->get_enrol_ids();
             redirect(new moodle_url("/auth/enrolkey/view.php", ['ids' => implode(',', $enrolids)]));

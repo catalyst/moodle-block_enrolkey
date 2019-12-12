@@ -14,16 +14,23 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-//moodleform is defined in formslib.php
-require_once($CFG->libdir . '/formslib.php');
+namespace block_enrolkey\form;
+
+use auth_plugin_enrolkey;
+use coding_exception;
+use moodle_exception;
+
+defined('MOODLE_INTERNAL') || die;
+
+require_once($CFG->libdir.'/formslib.php');
 
 /**
  * Class enrolkey_form
  */
-class enrolkey_form extends moodleform {
+class enrolkey_form extends \moodleform {
 
     /**
-     * @var auth_plugin_enrolkey
+     * @var \auth_plugin_enrolkey
      */
     private $authplugin;
 
@@ -48,7 +55,7 @@ class enrolkey_form extends moodleform {
      * @return array
      */
     public function get_enrol_ids(): array {
-        return$this->enrolids;
+        return $this->enrolids;
     }
 
     /**
