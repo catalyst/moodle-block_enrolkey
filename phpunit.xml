@@ -30,7 +30,7 @@
 
     <testsuites>
         <testsuite name="core_privacy_testsuite">
-            <directory suffix="_test.php">../../../privacy/tests</directory>
+            <directory suffix="_test.php">../../privacy/tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
