@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2019120600;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2018050800;        // Requires this Moodle version
-$plugin->component = 'block_enrolkey'; // Full name of the plugin (used for diagnostics)
+$plugin->version   = 2019120600;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2018050800;        // Requires this Moodle version.
+$plugin->component = 'block_enrolkey'; // Full name of the plugin (used for diagnostics).
 $plugin->dependencies = ['auth_enrolkey' => 2018061900];

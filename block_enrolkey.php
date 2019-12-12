@@ -33,7 +33,7 @@ class block_enrolkey extends block_base {
     /**
      * @return bool
      */
-    function has_config(): bool {
+    public function has_config() : bool {
         return true;
     }
 
@@ -46,7 +46,7 @@ class block_enrolkey extends block_base {
             return $this->content;
         }
 
-        $this->content =  new stdClass;
+        $this->content = new stdClass;
         $form = (new \block_enrolkey\form\enrolkey_form())->set_plugin($authplugin);
         if ($form->get_data()) {
             $enrolids = $form->get_enrol_ids();

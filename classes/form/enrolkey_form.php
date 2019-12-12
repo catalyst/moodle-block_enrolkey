@@ -54,7 +54,7 @@ class enrolkey_form extends \moodleform {
     /**
      * @return array
      */
-    public function get_enrol_ids(): array {
+    public function get_enrol_ids() : array {
         return $this->enrolids;
     }
 
@@ -62,7 +62,7 @@ class enrolkey_form extends \moodleform {
      * @param auth_plugin_enrolkey $authplugin
      * @return enrolkey_form
      */
-    public function set_plugin(auth_plugin_enrolkey $authplugin): self {
+    public function set_plugin(auth_plugin_enrolkey $authplugin) : self {
         $this->authplugin = $authplugin;
         return $this;
     }
@@ -74,7 +74,7 @@ class enrolkey_form extends \moodleform {
      * @throws coding_exception
      * @throws moodle_exception
      */
-    public function validation($data, $files): array {
+    public function validation($data, $files) : array {
         if (!$this->authplugin) {
             return ['enrolkey' => get_string('pluginerror', 'block_enrolkey')];
         }
