@@ -31,13 +31,6 @@ class block_enrolkey extends block_base {
     }
 
     /**
-     * @return bool
-     */
-    public function has_config() : bool {
-        return true;
-    }
-
-    /**
      * @return stdClass|stdObject
      * @throws moodle_exception
      */

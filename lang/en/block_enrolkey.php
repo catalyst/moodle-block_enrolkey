@@ -22,8 +22,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['block_enrolkey:addinstance'] = 'Add a new enrolkey block';
-$string['block_enrolkey:myaddinstance'] = 'Add a new enrolkey block to Dashboard';
+$string['enrolkey:addinstance'] = 'Add a new enrolkey block';
+$string['enrolkey:myaddinstance'] = 'Add a new enrolkey block to Dashboard';
 $string['pluginname'] = 'Enrol key';
 $string['enrolbutton'] = 'Enrol';
 $string['emptykey'] = 'key must not be empty';
