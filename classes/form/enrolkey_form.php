@@ -45,7 +45,7 @@ class enrolkey_form extends \moodleform {
      */
     public function definition() {
         $mform = $this->_form;
-        $mform->addElement('text', 'enrolkey', '');
+        $mform->addElement('text', 'enrolkey', get_string('enrolmentkey', 'block_enrolkey'));
         $mform->setType('enrolkey', PARAM_TEXT);
         $mform->addRule('enrolkey', get_string('emptykey', 'block_enrolkey'), 'required', null, 'client');
         $mform->addElement('submit', 'submitbutton', get_string('enrolbutton', 'block_enrolkey'));

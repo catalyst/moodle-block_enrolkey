@@ -26,6 +26,7 @@ $string['enrolkey:addinstance'] = 'Add a new enrolkey block';
 $string['enrolkey:myaddinstance'] = 'Add a new enrolkey block to Dashboard';
 $string['pluginname'] = 'Enrol key';
 $string['enrolbutton'] = 'Enrol';
+$string['enrolmentkey'] = 'Enter your enrolment key';
 $string['emptykey'] = 'key must not be empty';
 $string['invalidkey'] = 'invalid key value';
 $string['disabled'] = 'Sorry, you may not use this page.';
