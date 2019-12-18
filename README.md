@@ -32,14 +32,14 @@ Add the block:
 
  - `Blocks editing on`
  - `Add a block`
- - select *`Enrol key`*
+ - select **`Enrol key`**
  - `Blocks editing off`
  - `Reset Dashboard for all users`
 
 Client Usage
 ------------
 
-When a user logs in the *Enrol key* block should be displayed. The user can enter a token into the input field in the form. 
+When a user logs in the **Enrol key** block should be displayed. The user can enter a token into the input field in the form. 
 
 If the token matches **any** valid instance of self enrolment, then the user will be enrolled to those courses. 
 
