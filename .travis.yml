@@ -51,7 +51,6 @@ install:
   - moodle-plugin-ci install
 
 script:
-  - php moodle/auth/enrolkey/tests/privacy/privacy.php
   - moodle-plugin-ci phplint
   - moodle-plugin-ci phpcpd
   - moodle-plugin-ci phpmd         # phpmd is a bit overzealous
