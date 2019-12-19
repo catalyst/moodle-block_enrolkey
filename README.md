@@ -4,16 +4,22 @@
 
 An easy way to enrol using an enrolkey from anywhere within moodle
 
+* [Dependencies](#dependencies)
 * [Branches](#branches)
 * [Installation](#installation)
 * [Setup](#setup)
 * [Client Usage](#client-usage)
 * [Support](#support)
 
+Dependencies
+--------
+
+This plugin requires the https://github.com/catalyst/moodle-auth_enrolkey to be installed.
+
 Branches
 --------
 
-For all current moodle installations, use the master branch
+The master branch is compatible Moodle version: 3.5, 3.6, 3.7
 
 Installation
 ------------ 
