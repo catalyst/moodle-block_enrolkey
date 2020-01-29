@@ -45,7 +45,9 @@ class block_enrolkey extends block_base {
             $enrolids = $form->get_enrol_ids();
             redirect(new moodle_url("/auth/enrolkey/view.php", ['ids' => implode(',', $enrolids)]));
         }
-        $this->content->text = $form->render();
+        $this->content->text = html_writer::start_div('block_' . $this->name());
+        $this->content->text .= $form->render();
+        $this->content->text .= html_writer::end_div();
 
         return $this->content;
     }
