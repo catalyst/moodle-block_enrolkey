@@ -1,19 +1,23 @@
+.block_enrolkey .form-group > .col-md-9 .form-control {
+    width: 100%
+}
+
 @media (min-width: 768px) {
-    .card-text .form-group>.col-md-3 {
+    .block_enrolkey .form-group > .col-md-3 {
         padding: 0 !important;
         flex: 0 0 95%;
         max-width: 93%;
         display: none;
     }
 
-    .card-text .form-group>.col-md-9 {
+    .block_enrolkey .form-group > .col-md-9 {
         flex: 0 0 100%;
         max-width: 93%;
         padding: 0;
     }
 
-    .card-text .mform>.form-group {
+    .block_enrolkey .mform > .form-group {
         margin-left: 0;
-        flex : 0 0 100%
+        flex: 0 0 100%
     }
 }
