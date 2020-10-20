@@ -78,7 +78,7 @@ class enrolkey_form extends \moodleform {
         if (!$this->authplugin) {
             return ['enrolkey' => get_string('pluginerror', 'block_enrolkey')];
         }
-        $enrolids = $this->authplugin->enrol_user($data['enrolkey']);
+        list($enrolids, $errors) = $this->authplugin->enrol_user($data['enrolkey']);
         if (empty($enrolids)) {
             return ['enrolkey' => get_string('invalidkey', 'block_enrolkey')];
         }
