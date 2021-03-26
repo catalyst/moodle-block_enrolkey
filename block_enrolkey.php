@@ -35,11 +35,12 @@ class block_enrolkey extends block_base {
      * @throws moodle_exception
      */
     public function get_content() {
-        if ($this->content !== null || ($authplugin = $this->is_auth_plugin_enable()) === false) {
+        if ($this->content !== null || $this->is_auth_plugin_enable() === false) {
             return $this->content;
         }
 
         $this->content = new stdClass;
+        $authplugin = get_auth_plugin('enrolkey');
         $form = (new \block_enrolkey\form\enrolkey_form())->set_plugin($authplugin);
         if ($form->get_data()) {
             $enrolids = $form->get_enrol_ids();
@@ -56,11 +57,10 @@ class block_enrolkey extends block_base {
      * @return bool|mixed
      */
     private function is_auth_plugin_enable() {
-        $authpluginclass = auth_plugin_enrolkey::class;
-        $authplugin = signup_is_enabled();
-        if (!$authplugin instanceof $authpluginclass) {
-            return false;
-        }
-        return $authplugin;
+        // Enrolkey does not need to be the signup method.
+        // Self signup does not even need to be enabled.
+        // Checking for whether the plugin is enabled is enough to verify it is present and working.
+        $authplugins = get_enabled_auth_plugins();
+        return in_array('enrolkey', $authplugins);
     }
 }
