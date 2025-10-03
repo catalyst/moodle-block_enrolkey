@@ -1,5 +1,5 @@
 .block_enrolkey .form-group > .col-md-9 .form-control {
-    width: 100%
+    width: 100%;
 }
 
 @media (min-width: 768px) {
@@ -18,6 +18,6 @@
 
     .block_enrolkey .mform > .form-group {
         margin-left: 0;
-        flex: 0 0 100%
+        flex: 0 0 100%;
     }
 }

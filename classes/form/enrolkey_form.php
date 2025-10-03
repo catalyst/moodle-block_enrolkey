@@ -22,13 +22,16 @@ use moodle_exception;
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once($CFG->libdir.'/formslib.php');
+require_once($CFG->libdir . '/formslib.php');
 
 /**
  * Class enrolkey_form
+ *
+ * @package block_enrolkey
+ * @copyright  Gleimer Mora <gleimermora@catalyst-au.net>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class enrolkey_form extends \moodleform {
-
     /**
      * @var \auth_plugin_enrolkey
      */
@@ -41,6 +44,7 @@ class enrolkey_form extends \moodleform {
 
     /**
      * Add elements to form
+     *
      * @throws coding_exception
      */
     public function definition() {
@@ -52,33 +56,39 @@ class enrolkey_form extends \moodleform {
     }
 
     /**
+     * Gets the enrolids.
+     *
      * @return array
      */
-    public function get_enrol_ids() : array {
+    public function get_enrol_ids(): array {
         return $this->enrolids;
     }
 
     /**
+     * Sets the auth plugin.
+     *
      * @param auth_plugin_enrolkey $authplugin
      * @return enrolkey_form
      */
-    public function set_plugin(auth_plugin_enrolkey $authplugin) : self {
+    public function set_plugin(auth_plugin_enrolkey $authplugin): self {
         $this->authplugin = $authplugin;
         return $this;
     }
 
     /**
+     * Validate the form.
+     *
      * @param array $data
      * @param array $files
      * @return array
      * @throws coding_exception
      * @throws moodle_exception
      */
-    public function validation($data, $files) : array {
+    public function validation($data, $files): array {
         if (!$this->authplugin) {
             return ['enrolkey' => get_string('pluginerror', 'block_enrolkey')];
         }
-        list($enrolids, $errors) = $this->authplugin->enrol_user($data['enrolkey']);
+        [$enrolids, $errors] = $this->authplugin->enrol_user($data['enrolkey']);
         if (empty($enrolids)) {
             return ['enrolkey' => get_string('invalidkey', 'block_enrolkey')];
         }
