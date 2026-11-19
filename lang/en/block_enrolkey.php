@@ -32,3 +32,4 @@ $string['invalidkey'] = 'invalid key value';
 $string['disabled'] = 'Sorry, you may not use this page.';
 $string['pluginerror'] = 'something went wrong, try it again later';
 $string['privacy:metadata'] = 'The block enrolkey plugin does not store any personal data.';
+$string['configcontent'] = 'Content before key entry';

@@ -31,25 +31,49 @@ class block_enrolkey extends block_base {
     }
 
     /**
-     * @return stdClass|stdObject
+     * Wording can be configured in the block.
+     *
+     * @return boolean
+     */
+    function instance_allow_config() {
+        return true;
+    }
+
+    /**
+     * Multiple blocks are allowed.
+     *
+     * @return boolean
+     */
+    function instance_allow_multiple() {
+        return true;
+    }
+
+    /**
+     * @return stdClass
      * @throws moodle_exception
      */
     public function get_content() {
         if ($this->content !== null || $this->is_auth_plugin_enable() === false) {
             return $this->content;
         }
-
-        $this->content = new stdClass;
         $authplugin = get_auth_plugin('enrolkey');
         $form = (new \block_enrolkey\form\enrolkey_form())->set_plugin($authplugin);
         if ($form->get_data()) {
             $enrolids = $form->get_enrol_ids();
             redirect(new moodle_url("/auth/enrolkey/view.php", ['ids' => implode(',', $enrolids)]));
         }
+
+        $this->content = new stdClass;
         $this->content->text = html_writer::start_div('block_' . $this->name());
+        if ($this->config && isset($this->config->content)) {
+            $content = html_writer::start_div('content_pre mb-4');
+            $content .= format_text($this->config->content, FORMAT_HTML, ['context' => $this->context]);
+            $content .= html_writer::end_div();
+            $this->content->text .= $content;
+        }
+
         $this->content->text .= $form->render();
         $this->content->text .= html_writer::end_div();
-
         return $this->content;
     }
 
